@@ -2,7 +2,7 @@ package proxy
 
 import (
 	"errors"
-	"github.com/ResilienceTesting/gremlinproxy/config"
+	"github.com/alronz/gremlinproxy/config"
 	str "strings"
 	"time"
 
@@ -100,7 +100,7 @@ type Rule struct {
 
 	// Probability float64
 	// Distribution string
-	
+
 	// First delay, then mangle and then abort
 	// One could set the probabilities of these variables to 0/1 to toggle them on or off
 	// We effectively get 8 combinations but only few make sense.

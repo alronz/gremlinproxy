@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"github.com/ResilienceTesting/gremlinproxy/config"
-	"github.com/ResilienceTesting/gremlinproxy/router"
+	"github.com/alronz/gremlinproxy/config"
+	"github.com/alronz/gremlinproxy/router"
 	"net"
 	"os"
 

@@ -5,7 +5,7 @@ import (
 	"compress/gzip"
 	"compress/zlib"
 	"encoding/json"
-	"github.com/ResilienceTesting/gremlinproxy/config"
+	"github.com/alronz/gremlinproxy/config"
 	"io"
 	"io/ioutil"
 	"math/rand"
@@ -225,8 +225,8 @@ func (p *Proxy) Run() {
 
 // 	   var i int = 0
 // 	   var n2 int = 0
-	   
-// 	   for (n2 < n) {		
+
+// 	   for (n2 < n) {
 // 			i, err = dst.Write(data[n2:n])
 // 			if err != nil {
 // 				src.Close()
@@ -342,7 +342,7 @@ func (p *Proxy) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 		} else {
 			// Check if we were expecting it on the wire:
 			//p.expectCheck(decodedData)
-			
+
 			// Get the rule
 			rule = p.getRule(Request, reqID, decodedData)
 		}
@@ -422,7 +422,7 @@ func (p *Proxy) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 			// Execute rules, if any
 			rule = p.getRule(Response, reqID, decodedData)
 		}
-	
+
 		cont = p.executeResponseRule(reqID, rule, resp, decodedData, respTime, w)
 		if !cont {
 			return
@@ -584,7 +584,7 @@ func (p *Proxy) executeResponseRule(reqID string, rule Rule, resp *http.Response
 		//log header/body?
 		"rule": rule.ToConfig(),
 	}).Info("Response")
-	
+
 	return retVal
 }
 
