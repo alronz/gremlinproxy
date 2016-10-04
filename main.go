@@ -1,7 +1,6 @@
 package main
 
 import (
-	"flag"
 	"fmt"
 	"github.com/ResilienceTesting/gremlinproxy/config"
 	"github.com/ResilienceTesting/gremlinproxy/router"
@@ -12,14 +11,7 @@ import (
 )
 
 func main() {
-	// Read config
-	cpath := flag.String("c", "", "Path to the config file")
-	flag.Parse()
-	if *cpath == "" {
-		fmt.Println("No config file specified.\nusage: gremlinproxy -c configfile")
-		os.Exit(1)
-	}
-	conf := config.ReadConfig(*cpath)
+	conf := config.ReadConfig("config.json")
 	fmt.Println("Config read successful")
 
 	var log = config.GlobalLogger

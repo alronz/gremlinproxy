@@ -1,8 +1,4 @@
-FROM alpine:3.1
-
-ADD example-config.json /opt/gremlinproxy/
-ADD gremlinproxy /opt/gremlinproxy/
-CMD ["/opt/gremlinproxy/gremlinproxy", "-c", "/opt/gremlinproxy/example-config.json"]
+FROM golang:onbuild
 
 # Expose control port.
 EXPOSE 9876

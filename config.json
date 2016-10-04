@@ -1,0 +1,26 @@
+{
+  "services": [
+    {
+      "name": "app-to-test",
+      "proxy": {
+	    "bindhost" : "0.0.0.0",
+        "port": 7777,
+        "protocol": "http"
+      },
+      "loadbalancer": {
+        "hosts": [
+	      "https://10817b2b-e937-4951-97b6-bc87d5d7036a-bluemix:f8ca88e2625619e44133e1f985fffd868ba5db1cd3838b639262717f88cfa24c@10817b2b-e937-4951-97b6-bc87d5d7036a-bluemix.cloudant.com"
+        ],
+        "mode": "roundrobin"
+      }
+    }
+  ],
+  "router": {
+      "name": "gremlin-server",
+      "port": 9876,
+      "trackingheader": "X-Gremlin-ID"
+  },
+  "loglevel": "debug",
+  "logjson": true,
+  "logstash": ""
+}
