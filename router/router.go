@@ -65,7 +65,7 @@ func (r *Router) exposeREST() {
 	hr.GET("/gremlin/v1/rules/list", r.ListRules)
 	hr.DELETE("/gremlin/v1/rules", r.Reset)
 	hr.GET("/gremlin/v1/proxy/:service/hosts", r.GetInstances)
-	hr.PUT("/gremlin/v1/proxy/:service/:hosts", r.SetInstances)
+	hr.PUT("/gremlin/v1/proxy/:service", r.SetInstances)
 	hr.DELETE("/gremlin/v1/proxy/:service/hosts", r.RemoveInstances)
 	hr.PUT("/gremlin/v1/test/:id", r.SetTest)
 	hr.DELETE("/gremlin/v1/test/:id", r.RemoveTest)
@@ -140,20 +140,28 @@ func restHello(w http.ResponseWriter, req *http.Request, _ httprouter.Params) {
 // Overwrite the load balancer pool for a given service name
 func (r *Router) SetInstances(w http.ResponseWriter, req *http.Request, params httprouter.Params) {
 	serviceName := params.ByName("service")
-	hostlist := params.ByName("hosts")
-	log.Debug("name="+serviceName+", hosts="+hostlist)
+	//hostlist := params.ByName("hosts")
+  d := json.NewDecoder(req.Body)
+	var hostsInput config.ServiceInstances
+  err := d.Decode(&hostsInput)
+	if err != nil {
+		log.Warning("Could not read JSON request\n" + err.Error())
+		return
+	}
+  log.Debug("new host list from body are" + hostsInput.Hosts)
+	log.Debug("name="+serviceName+", hosts="+hostsInput.Hosts)
 	s, exists := r.serviceNameMap[serviceName]
 	if !exists {
 		w.WriteHeader(http.StatusNotFound)
 		w.Write([]byte("No such service " + serviceName))
 		return
 	}
-	if hostlist == "" {
+	if hostsInput.Hosts == "" {
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte("Empty host list for " + serviceName))
 		return
 	}
-	hosts := str.Split(hostlist, ",")
+	hosts := str.Split(hostsInput.Hosts, ",")
 	s.Proxy.SetInstances(hosts)
 	w.Write([]byte(config.OK))
 }
