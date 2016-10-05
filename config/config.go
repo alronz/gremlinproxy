@@ -42,6 +42,10 @@ type RouterConfig struct {
 	Name           string `json:"name"`
 }
 
+type ServiceInstances struct {
+	Hosts string `json:"hosts"`
+}
+
 // RuleConfig represents different rules
 type RuleConfig struct {
 	Source       string  `json:"source"`
