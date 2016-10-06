@@ -33,7 +33,7 @@ be executed by the gremlin proxy.
 
 ### Usage
 
-#### Configuration 
+#### Configuration
 
 The _services_ section of the config file describes a list remote
 services that need to be proxied.  Each element in the list is a JSON
@@ -131,3 +131,44 @@ be subjected to fault injection.
 ```PUT /gremlin/v1/test/:id```: set new test ```:id```, that will be logged along with request/response logs
 
 ```DELETE /gremlin/v1/test/:id```: remove the currently set test ```:id```
+
+### Changes
+
+- A new docker file was added to use the golang:onbuild image instead
+- A bug has been fixed in the set list of instances API and the following APIs have been changed:
+
+```
+GET /gremlin/v1/proxy/:service/hosts     : get list of hosts for :service
+
+PUT /gremlin/v1/proxy/:service           : set list of hosts for :service.
+
+hosts is a comma separated string that is sent in body as below
+{"hosts": "host1,host2,..."}
+
+DELETE /gremlin/v1/proxy/:service/hosts   : clear list of hosts under :service
+
+```
+
+- Gremlin configurations must be in config.json
+
+### How to deploy proxy as a container in Bluemix
+
+The proxy can be deployed to Bluemix as a container following the below steps:
+
+
+- Build and push the docker image in bluemix:
+
+```sudo cf ic build --no-cache  -f Dockerfile -t registry.ng.bluemix.net/bilalalsaeedi/gremlinproxy .```
+
+
+- Run the container using the new image:
+
+```sudo cf ic run -p 9876 -p 7777 -d --name gremlinproxy registry.ng.bluemix.net/bilalalsaeedi/gremlinproxy```
+
+- Bind the proxy with a public IP address
+
+```sudo cf ic ip list```
+
+```sudo cf ic ip request```
+
+```sudo cf ic ip bind 169.46.156.13  gremlinproxy```
